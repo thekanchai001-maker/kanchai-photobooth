@@ -4,211 +4,161 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>ICE PHOTOBOOTH</title>
+    <title>KAN PHOTOBOOTH</title>
 
     <link rel="stylesheet" href="style.css">
-
-    <!-- QR Code -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
 
-    <div class="container">
+    <!-- ของตกแต่ง -->
+    <div class="deco deco-left-top">
+        Just<br>a moment<br> :)
+    </div>
+
+    <div class="deco deco-right-top">
+        Good<br>Photo<br>Good Day ♡
+    </div>
+
+    <div class="deco deco-left-bottom">
+        📷<br>Smile :)
+    </div>
+
+    <div class="deco deco-right-middle">
+        ♡<br>
+        Better<br>Version<br>of Me
+    </div>
+
+
+    <main class="container">
 
         <!-- หัวเว็บ -->
         <header>
-            <h1>📸 ICE PHOTOBOOTH</h1>
-            <p>ถ่ายภาพในแบบของคุณ</p>
+            <h1>
+                📷 KAN <span>PHOTOBOOTH</span>
+            </h1>
+
+            <p>เก็บโมเมนต์เล็กๆ ในแบบเรา ♡</p>
         </header>
 
 
-        <!-- ========================= -->
         <!-- กล้อง -->
-        <!-- ========================= -->
-
-        <div class="camera-section" id="cameraSection">
+        <section class="camera-section">
 
             <div class="camera-box">
 
                 <video
-                    id="camera"
+                    id="video"
                     autoplay
                     playsinline>
                 </video>
 
-                <div id="countdown"></div>
-
-                <div id="photoNumber">
-                    รูปที่ <span>0</span> / 4
+                <div class="counter">
+                    รูปที่ <span id="photoCount">0</span>/4
                 </div>
 
             </div>
 
 
-            <div class="camera-buttons">
+            <!-- ปุ่ม -->
+            <div class="buttons">
 
-                <button id="startCamera">
-                    📷 เปิดกล้อง
+                <button
+                    id="startCamera"
+                    class="btn btn-dark">
+
+                    ✅ เปิดกล้องแล้ว
+
                 </button>
 
-                <button id="startBooth" disabled>
-                    📸 เริ่มถ่าย 4 รูป
+
+                <button
+                    id="startPhoto"
+                    class="btn btn-pink">
+
+                    📷 เริ่มถ่าย 4 รูป
+
                 </button>
 
             </div>
+
+        </section>
+
+
+        <!-- รูป 4 ช่อง -->
+        <section class="photo-grid">
+
+            <div class="photo-slot" id="slot1">
+
+                <div class="placeholder">
+                    🖼️
+                </div>
+
+                <span>1</span>
+
+            </div>
+
+
+            <div class="photo-slot" id="slot2">
+
+                <div class="placeholder">
+                    🖼️
+                </div>
+
+                <span>2</span>
+
+            </div>
+
+
+            <div class="photo-slot" id="slot3">
+
+                <div class="placeholder">
+                    🖼️
+                </div>
+
+                <span>3</span>
+
+            </div>
+
+
+            <div class="photo-slot" id="slot4">
+
+                <div class="placeholder">
+                    🖼️
+                </div>
+
+                <span>4</span>
+
+            </div>
+
+        </section>
+
+
+        <!-- ปุ่มเริ่มใหม่ -->
+        <button
+            id="resetBtn"
+            class="reset-btn">
+
+            🔄 ถ่ายใหม่
+
+        </button>
+
+
+        <!-- ข้อความล่าง -->
+        <div class="footer-text">
+
+            — ถ่าย 4 รูป สร้างโมเมนต์ของคุณ —
+
+            <br>
+
+            <span>♡ by KAN</span>
 
         </div>
 
+    </main>
 
 
-        <!-- ========================= -->
-        <!-- เลือกกรอบ -->
-        <!-- ========================= -->
-
-        <section
-            id="frameSection"
-            class="hidden">
-
-            <h2>เลือกกรอบของคุณ</h2>
-
-            <p class="subtitle">
-                เลือกสไตล์ที่ชอบ
-            </p>
-
-
-            <div class="frame-options">
-
-                <button
-                    class="frame-btn active"
-                    data-frame="classic">
-
-                    <div class="frame-preview classic-preview">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-
-                    <span>Classic</span>
-
-                </button>
-
-
-                <button
-                    class="frame-btn"
-                    data-frame="pink">
-
-                    <div class="frame-preview pink-preview">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-
-                    <span>Pink</span>
-
-                </button>
-
-
-                <button
-                    class="frame-btn"
-                    data-frame="black">
-
-                    <div class="frame-preview black-preview">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-
-                    <span>Black</span>
-
-                </button>
-
-
-                <button
-                    class="frame-btn"
-                    data-frame="film">
-
-                    <div class="frame-preview film-preview">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-
-                    <span>Film</span>
-
-                </button>
-
-            </div>
-
-
-            <button id="createPhoto">
-                ✨ สร้างรูป Photo Booth
-            </button>
-
-        </section>
-
-
-
-        <!-- ========================= -->
-        <!-- ผลลัพธ์ -->
-        <!-- ========================= -->
-
-        <section
-            id="resultSection"
-            class="hidden">
-
-            <h2>🎉 รูปของคุณพร้อมแล้ว!</h2>
-
-            <div id="photos"></div>
-
-
-            <div class="result-buttons">
-
-                <button id="downloadPhoto">
-                    💾 ดาวน์โหลด
-                </button>
-
-
-                <button id="showQR">
-                    📱 QR Code
-                </button>
-
-
-                <button id="retakePhoto">
-                    🔄 ถ่ายใหม่
-                </button>
-
-            </div>
-
-
-            <div
-                id="qrSection"
-                class="hidden">
-
-                <h3>📱 สแกน QR Code</h3>
-
-                <p>
-                    สแกนเพื่อเปิดหน้า ICE PHOTOBOOTH
-                </p>
-
-                <div id="qrcode"></div>
-
-            </div>
-
-        </section>
-
-
-    </div>
-
-
-
-    <!-- Canvas สำหรับสร้างรูป -->
     <canvas id="canvas"></canvas>
-
 
     <script src="script.js"></script>
 
