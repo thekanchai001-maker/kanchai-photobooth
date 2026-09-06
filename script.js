@@ -1,19 +1,28 @@
 const video = document.getElementById("video");
-
 const canvas = document.getElementById("canvas");
 
 const startCamera = document.getElementById("startCamera");
-
 const startPhoto = document.getElementById("startPhoto");
 
 const photoCount = document.getElementById("photoCount");
+const countdown = document.getElementById("countdown");
 
+const frameSection = document.getElementById("frameSection");
+const resultSection = document.getElementById("resultSection");
+
+const createBtn = document.getElementById("createBtn");
+
+const finalSection = document.getElementById("finalSection");
+const finalImage = document.getElementById("finalImage");
+
+const saveBtn = document.getElementById("saveBtn");
 const resetBtn = document.getElementById("resetBtn");
 
-
 let stream = null;
-
-let count = 0;
+let photos = [];
+let selectedFrame = "classic";
+let finalImageData = null;
+let isTaking = false;
 
 
 /* เปิดกล้อง */
@@ -22,22 +31,28 @@ async function openCamera() {
 
     try {
 
-        stream = await navigator.mediaDevices.getUserMedia({
+        if (stream) return;
 
-            video: true,
-            audio: false
+        stream =
+            await navigator.mediaDevices.getUserMedia({
 
-        });
+                video: true,
+                audio: false
+
+            });
 
         video.srcObject = stream;
 
-        startCamera.innerHTML = "✅ เปิดกล้องแล้ว";
+        startCamera.innerHTML =
+            "✅ เปิดกล้องแล้ว";
 
     }
 
     catch (error) {
 
-        alert("ไม่สามารถเปิดกล้องได้ กรุณาอนุญาตการใช้งานกล้อง");
+        alert(
+            "ไม่สามารถเปิดกล้องได้ กรุณาอนุญาตการใช้กล้อง"
+        );
 
         console.error(error);
 
@@ -46,76 +61,100 @@ async function openCamera() {
 }
 
 
-startCamera.addEventListener("click", openCamera);
+startCamera.addEventListener(
+    "click",
+    openCamera
+);
 
 
-/* เริ่มถ่าย 4 รูป */
+/* เริ่มถ่าย */
 
-startPhoto.addEventListener("click", async () => {
+startPhoto.addEventListener(
+    "click",
+    async () => {
 
-    if (!stream) {
+        if (isTaking) return;
 
-        await openCamera();
+        if (!stream) {
 
-        return;
+            await openCamera();
+
+            if (!stream) return;
+
+        }
+
+        takeFourPhotos();
+
+    }
+);
+
+
+/* นับถอยหลัง */
+
+async function runCountdown(number) {
+
+    countdown.style.display = "flex";
+
+    for (
+        let sec = 10;
+        sec >= 1;
+        sec--
+    ) {
+
+        countdown.textContent = sec;
+
+        startPhoto.innerHTML =
+            `📸 รูปที่ ${number} กำลังจะถ่าย`;
+
+        await sleep(1000);
 
     }
 
+    countdown.style.display = "none";
 
-    if (count >= 4) {
-
-        return;
-
-    }
+}
 
 
-    takeFourPhotos();
-
-});
-
-
-/* ถ่ายรูปทีละรูป */
+/* ถ่ายรูป */
 
 function takePhoto() {
 
-    return new Promise((resolve) => {
+    canvas.width =
+        video.videoWidth;
 
-        canvas.width = video.videoWidth;
+    canvas.height =
+        video.videoHeight;
 
-        canvas.height = video.videoHeight;
-
-
-        const ctx = canvas.getContext("2d");
-
-
-        /* กลับภาพให้เหมือนกล้อง */
-
-        ctx.translate(canvas.width, 0);
-
-        ctx.scale(-1, 1);
+    const ctx =
+        canvas.getContext("2d");
 
 
-        ctx.drawImage(
+    ctx.translate(
+        canvas.width,
+        0
+    );
 
-            video,
-
-            0,
-
-            0,
-
-            canvas.width,
-
-            canvas.height
-
-        );
+    ctx.scale(-1, 1);
 
 
-        const imageData = canvas.toDataURL("image/png");
+    ctx.drawImage(
+
+        video,
+
+        0,
+
+        0,
+
+        canvas.width,
+
+        canvas.height
+
+    );
 
 
-        resolve(imageData);
-
-    });
+    return canvas.toDataURL(
+        "image/png"
+    );
 
 }
 
@@ -124,112 +163,634 @@ function takePhoto() {
 
 async function takeFourPhotos() {
 
+    isTaking = true;
+
     startPhoto.disabled = true;
 
-    startPhoto.innerHTML = "📸 กำลังถ่าย...";
+    photos = [];
 
 
-    for (let i = count + 1; i <= 4; i++) {
+    for (
+        let i = 1;
+        i <= 4;
+        i++
+    ) {
 
-        /* นับถอยหลัง 2 วินาที */
-
-        for (let sec = 2; sec > 0; sec--) {
-
-            startPhoto.innerHTML =
-                `📸 ถ่ายรูปที่ ${i} ใน ${sec}`;
-
-            await sleep(1000);
-
-        }
+        await runCountdown(i);
 
 
-        const imageData = await takePhoto();
+        startPhoto.innerHTML =
+            "📸 แชะ!";
 
 
-        const slot =
-            document.getElementById(`slot${i}`);
+        const imageData =
+            takePhoto();
 
 
-        slot.innerHTML = "";
+        photos.push(
+            imageData
+        );
 
 
-        const img =
-            document.createElement("img");
+        showPhoto(
+            i,
+            imageData
+        );
 
 
-        img.src = imageData;
+        photoCount.textContent =
+            i;
 
 
-        slot.appendChild(img);
-
-
-        slot.classList.add("has-photo");
-
-
-        count = i;
-
-
-        photoCount.textContent = count;
+        await sleep(800);
 
     }
 
 
-    startPhoto.innerHTML = "🎉 ถ่ายครบแล้ว";
+    startPhoto.innerHTML =
+        "🎉 ถ่ายครบแล้ว";
 
-    resetBtn.style.display = "inline-block";
+
+    frameSection.style.display =
+        "block";
+
+
+    resultSection.style.display =
+        "block";
+
+
+    isTaking = false;
 
 }
 
 
-function sleep(ms) {
+/* แสดงรูป */
 
-    return new Promise(resolve =>
-        setTimeout(resolve, ms)
+function showPhoto(
+    number,
+    imageData
+) {
+
+    const slot =
+        document.getElementById(
+            `slot${number}`
+        );
+
+
+    slot.innerHTML = "";
+
+
+    const img =
+        document.createElement("img");
+
+
+    img.src = imageData;
+
+
+    slot.appendChild(img);
+
+
+    slot.classList.add(
+        "has-photo"
     );
 
 }
 
 
-/* เริ่มใหม่ */
+/* เลือกกรอบ */
 
-resetBtn.addEventListener("click", () => {
-
-    count = 0;
-
-    photoCount.textContent = 0;
-
-
-    for (let i = 1; i <= 4; i++) {
-
-        const slot =
-            document.getElementById(`slot${i}`);
+const frameButtons =
+    document.querySelectorAll(
+        ".frame-btn"
+    );
 
 
-        slot.classList.remove("has-photo");
+frameButtons.forEach(
+    button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                frameButtons.forEach(
+                    btn =>
+                        btn.classList.remove(
+                            "active"
+                        )
+                );
 
 
-        slot.innerHTML = `
+                button.classList.add(
+                    "active"
+                );
 
-            <div class="placeholder">
-                🖼️
-            </div>
 
-            <span>${i}</span>
+                selectedFrame =
+                    button.dataset.frame;
 
-        `;
+            }
+        );
+
+    }
+);
+
+
+/* สร้างรูป Photo Booth */
+
+createBtn.addEventListener(
+    "click",
+    async () => {
+
+        if (photos.length < 4) {
+
+            alert(
+                "กรุณาถ่ายรูปให้ครบ 4 รูปก่อน"
+            );
+
+            return;
+
+        }
+
+
+        createBtn.innerHTML =
+            "⏳ กำลังสร้างรูป...";
+
+
+        const result =
+            await createPhotoBooth();
+
+
+        finalImage.src =
+            result;
+
+
+        finalImageData =
+            result;
+
+
+        finalSection.style.display =
+            "block";
+
+
+        createBtn.innerHTML =
+            "✨ สร้างรูป Photo Booth";
+
+    }
+);
+
+
+/* สร้างภาพ */
+
+async function createPhotoBooth() {
+
+    const resultCanvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    const width = 1000;
+    const height = 1500;
+
+
+    resultCanvas.width =
+        width;
+
+    resultCanvas.height =
+        height;
+
+
+    const ctx =
+        resultCanvas.getContext(
+            "2d"
+        );
+
+
+    /* สีพื้นหลังตามกรอบ */
+
+    let background = "#ffffff";
+    let borderColor = "#333333";
+    let textColor = "#333333";
+
+
+    if (
+        selectedFrame === "pink"
+    ) {
+
+        background = "#ffd6e3";
+        borderColor = "#ef5f91";
+        textColor = "#ef5f91";
 
     }
 
 
-    resetBtn.style.display = "none";
+    if (
+        selectedFrame === "black"
+    ) {
+
+        background = "#222222";
+        borderColor = "#ffffff";
+        textColor = "#ffffff";
+
+    }
 
 
-    startPhoto.disabled = false;
+    if (
+        selectedFrame === "film"
+    ) {
 
-    startPhoto.innerHTML =
-        "📷 เริ่มถ่าย 4 รูป";
+        background = "#111111";
+        borderColor = "#ffffff";
+        textColor = "#ffffff";
 
-});
+    }
+
+
+    ctx.fillStyle =
+        background;
+
+
+    ctx.fillRect(
+        0,
+        0,
+        width,
+        height
+    );
+
+
+    /* หัว */
+
+    ctx.fillStyle =
+        textColor;
+
+
+    ctx.font =
+        "bold 55px Arial";
+
+
+    ctx.textAlign =
+        "center";
+
+
+    ctx.fillText(
+        "KAN PHOTOBOOTH",
+        width / 2,
+        90
+    );
+
+
+    /* โหลดรูป */
+
+    const loadedImages =
+        await Promise.all(
+
+            photos.map(
+                source => {
+
+                    return new Promise(
+                        resolve => {
+
+                            const img =
+                                new Image();
+
+
+                            img.onload =
+                                () =>
+                                    resolve(
+                                        img
+                                    );
+
+
+                            img.src =
+                                source;
+
+                        }
+                    );
+
+                }
+            )
+
+        );
+
+
+    const photoWidth = 400;
+    const photoHeight = 430;
+
+    const gap = 35;
+
+    const startX =
+        (width -
+            (
+                photoWidth * 2 +
+                gap
+            )
+        ) / 2;
+
+    const startY = 180;
+
+
+    /* วาด 4 รูป */
+
+    for (
+        let i = 0;
+        i < 4;
+        i++
+    ) {
+
+        const column =
+            i % 2;
+
+
+        const row =
+            Math.floor(
+                i / 2
+            );
+
+
+        const x =
+            startX +
+            column *
+            (
+                photoWidth +
+                gap
+            );
+
+
+        const y =
+            startY +
+            row *
+            (
+                photoHeight +
+                gap
+            );
+
+
+        /* กรอบ */
+
+        ctx.fillStyle =
+            "#ffffff";
+
+
+        if (
+            selectedFrame === "film"
+        ) {
+
+            ctx.fillStyle =
+                "#000000";
+
+        }
+
+
+        ctx.fillRect(
+
+            x - 12,
+
+            y - 12,
+
+            photoWidth + 24,
+
+            photoHeight + 24
+
+        );
+
+
+        ctx.strokeStyle =
+            borderColor;
+
+
+        ctx.lineWidth = 8;
+
+
+        ctx.strokeRect(
+
+            x - 12,
+
+            y - 12,
+
+            photoWidth + 24,
+
+            photoHeight + 24
+
+        );
+
+
+        /* รูป */
+
+        ctx.drawImage(
+
+            loadedImages[i],
+
+            x,
+
+            y,
+
+            photoWidth,
+
+            photoHeight
+
+        );
+
+
+        /* จุดแบบฟิล์ม */
+
+        if (
+            selectedFrame === "film"
+        ) {
+
+            ctx.fillStyle =
+                "#ffffff";
+
+
+            for (
+                let p = 0;
+                p < 8;
+                p++
+            ) {
+
+                const holeY =
+                    y +
+                    p *
+                    (
+                        photoHeight /
+                        8
+                    );
+
+
+                ctx.fillRect(
+                    x - 25,
+                    holeY,
+                    12,
+                    25
+                );
+
+
+                ctx.fillRect(
+                    x + photoWidth + 13,
+                    holeY,
+                    12,
+                    25
+                );
+
+            }
+
+        }
+
+    }
+
+
+    /* ข้อความล่าง */
+
+    ctx.fillStyle =
+        textColor;
+
+
+    ctx.font =
+        "32px Arial";
+
+
+    ctx.fillText(
+
+        "♡ captured with love ♡",
+
+        width / 2,
+
+        1170
+
+    );
+
+
+    ctx.font =
+        "28px Arial";
+
+
+    ctx.fillText(
+
+        "by KAN",
+
+        width / 2,
+
+        1230
+
+    );
+
+
+    return resultCanvas.toDataURL(
+        "image/png"
+    );
+
+}
+
+
+/* ดาวน์โหลด */
+
+saveBtn.addEventListener(
+    "click",
+    () => {
+
+        if (!finalImageData) return;
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.href =
+            finalImageData;
+
+
+        link.download =
+            "KAN-PHOTOBOOTH.png";
+
+
+        link.click();
+
+    }
+);
+
+
+/* ถ่ายใหม่ */
+
+resetBtn.addEventListener(
+    "click",
+    () => {
+
+        photos = [];
+
+        finalImageData = null;
+
+
+        photoCount.textContent =
+            "0";
+
+
+        for (
+            let i = 1;
+            i <= 4;
+            i++
+        ) {
+
+            const slot =
+                document.getElementById(
+                    `slot${i}`
+                );
+
+
+            slot.classList.remove(
+                "has-photo"
+            );
+
+
+            slot.innerHTML = `
+
+                <div class="placeholder">
+                    🖼️
+                </div>
+
+                <span>${i}</span>
+
+            `;
+
+        }
+
+
+        frameSection.style.display =
+            "none";
+
+
+        resultSection.style.display =
+            "none";
+
+
+        finalSection.style.display =
+            "none";
+
+
+        startPhoto.disabled =
+            false;
+
+
+        startPhoto.innerHTML =
+            "📸 เริ่มถ่าย 4 รูป";
+
+    }
+);
+
+
+/* หน่วงเวลา */
+
+function sleep(ms) {
+
+    return new Promise(
+        resolve =>
+            setTimeout(
+                resolve,
+                ms
+            )
+    );
+
+}
 
 
 /* เปิดกล้องอัตโนมัติ */

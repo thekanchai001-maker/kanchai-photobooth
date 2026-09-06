@@ -11,7 +11,6 @@
 
 <body>
 
-    <!-- ของตกแต่ง -->
     <div class="deco deco-left-top">
         Just<br>a moment<br> :)
     </div>
@@ -32,7 +31,6 @@
 
     <main class="container">
 
-        <!-- หัวเว็บ -->
         <header>
             <h1>
                 📷 KAN <span>PHOTOBOOTH</span>
@@ -43,6 +41,7 @@
 
 
         <!-- กล้อง -->
+
         <section class="camera-section">
 
             <div class="camera-box">
@@ -53,21 +52,25 @@
                     playsinline>
                 </video>
 
+                <div id="countdown" class="countdown">
+                    10
+                </div>
+
                 <div class="counter">
-                    รูปที่ <span id="photoCount">0</span>/4
+                    รูปที่
+                    <span id="photoCount">0</span>/4
                 </div>
 
             </div>
 
 
-            <!-- ปุ่ม -->
             <div class="buttons">
 
                 <button
                     id="startCamera"
                     class="btn btn-dark">
 
-                    ✅ เปิดกล้องแล้ว
+                    📷 เปิดกล้อง
 
                 </button>
 
@@ -76,7 +79,7 @@
                     id="startPhoto"
                     class="btn btn-pink">
 
-                    📷 เริ่มถ่าย 4 รูป
+                    📸 เริ่มถ่าย 4 รูป
 
                 </button>
 
@@ -85,66 +88,120 @@
         </section>
 
 
-        <!-- รูป 4 ช่อง -->
+        <!-- รูปตัวอย่าง -->
+
         <section class="photo-grid">
 
             <div class="photo-slot" id="slot1">
-
-                <div class="placeholder">
-                    🖼️
-                </div>
-
+                <div class="placeholder">🖼️</div>
                 <span>1</span>
-
             </div>
-
 
             <div class="photo-slot" id="slot2">
-
-                <div class="placeholder">
-                    🖼️
-                </div>
-
+                <div class="placeholder">🖼️</div>
                 <span>2</span>
-
             </div>
-
 
             <div class="photo-slot" id="slot3">
-
-                <div class="placeholder">
-                    🖼️
-                </div>
-
+                <div class="placeholder">🖼️</div>
                 <span>3</span>
-
             </div>
 
-
             <div class="photo-slot" id="slot4">
-
-                <div class="placeholder">
-                    🖼️
-                </div>
-
+                <div class="placeholder">🖼️</div>
                 <span>4</span>
+            </div>
+
+        </section>
+
+
+        <!-- เลือกกรอบ -->
+
+        <section
+            id="frameSection"
+            class="frame-section"
+            style="display: none;">
+
+            <h2>เลือกกรอบรูป ♡</h2>
+
+            <div class="frame-buttons">
+
+                <button class="frame-btn active" data-frame="classic">
+                    Classic
+                </button>
+
+                <button class="frame-btn" data-frame="pink">
+                    Pink
+                </button>
+
+                <button class="frame-btn" data-frame="black">
+                    Black
+                </button>
+
+                <button class="frame-btn" data-frame="film">
+                    Film
+                </button>
 
             </div>
 
         </section>
 
 
-        <!-- ปุ่มเริ่มใหม่ -->
-        <button
-            id="resetBtn"
-            class="reset-btn">
+        <!-- ปุ่มสร้างรูป -->
 
-            🔄 ถ่ายใหม่
+        <section
+            id="resultSection"
+            class="result-section"
+            style="display: none;">
 
-        </button>
+            <button
+                id="createBtn"
+                class="create-btn">
+
+                ✨ สร้างรูป Photo Booth
+
+            </button>
+
+        </section>
 
 
-        <!-- ข้อความล่าง -->
+        <!-- รูปสำเร็จ -->
+
+        <section
+            id="finalSection"
+            class="final-section"
+            style="display: none;">
+
+            <h2>PHOTOBOOTH ♡</h2>
+
+            <img
+                id="finalImage"
+                alt="Photo Booth Result">
+
+            <div class="result-buttons">
+
+                <button
+                    id="saveBtn"
+                    class="save-btn">
+
+                    💾 ดาวน์โหลด
+
+                </button>
+
+
+                <button
+                    id="resetBtn"
+                    class="reset-btn">
+
+                    🔄 ถ่ายใหม่
+
+                </button>
+
+            </div>
+
+        </section>
+
+
         <div class="footer-text">
 
             — ถ่าย 4 รูป สร้างโมเมนต์ของคุณ —

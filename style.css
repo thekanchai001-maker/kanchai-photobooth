@@ -7,9 +7,7 @@
 }
 
 body {
-
     font-family: "Kanit", sans-serif;
-
     min-height: 100vh;
 
     background:
@@ -18,17 +16,14 @@ body {
             #ffe7f0 0%,
             transparent 25%
         ),
-
         radial-gradient(
             circle at bottom right,
             #ffe3ec 0%,
             transparent 25%
         ),
-
         #fffdfd;
 
     color: #333;
-
     overflow-x: hidden;
 }
 
@@ -36,341 +31,361 @@ body {
 /* กล่องหลัก */
 
 .container {
-
     width: 100%;
-
     max-width: 700px;
-
     margin: auto;
-
-    padding: 20px 20px 40px;
-
+    padding: 25px 20px 50px;
     text-align: center;
-
 }
 
 
 /* หัวเว็บ */
 
 header {
-
     margin-bottom: 20px;
-
 }
 
 header h1 {
-
     font-size: 32px;
-
     font-weight: 700;
-
     letter-spacing: 1px;
-
 }
 
 header h1 span {
-
     color: #ef7fa4;
-
 }
 
 header p {
-
-    margin-top: 2px;
-
+    margin-top: 3px;
     color: #888;
-
     font-size: 15px;
-
 }
 
 
 /* กล้อง */
 
-.camera-section {
-
-    width: 100%;
-
-}
-
 .camera-box {
-
     position: relative;
-
     width: 100%;
-
     max-width: 520px;
-
     margin: auto;
-
-    border-radius: 20px;
-
     overflow: hidden;
-
+    border-radius: 20px;
     background: #222;
 
     box-shadow:
         0 10px 30px
         rgba(240, 120, 160, 0.25);
-
 }
 
 #video {
-
     width: 100%;
-
     display: block;
-
     aspect-ratio: 4 / 3;
-
     object-fit: cover;
-
     transform: scaleX(-1);
-
 }
 
 
 /* ตัวนับรูป */
 
 .counter {
-
     position: absolute;
-
     top: 12px;
-
     right: 12px;
 
-    background: rgba(20, 20, 20, 0.85);
-
+    background: rgba(0,0,0,0.75);
     color: white;
 
     padding: 8px 14px;
-
     border-radius: 12px;
+}
 
-    font-size: 16px;
 
+/* เลขนับถอยหลัง */
+
+.countdown {
+    display: none;
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 100px;
+    height: 100px;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.9);
+
+    color: #ef4f84;
+
+    font-size: 60px;
+    font-weight: 700;
+
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 5px 25px
+        rgba(0,0,0,0.2);
 }
 
 
 /* ปุ่ม */
 
 .buttons {
-
     display: flex;
-
     justify-content: center;
-
-    gap: 15px;
-
+    gap: 12px;
     margin: 18px 0;
+}
 
+button {
+    font-family: "Kanit", sans-serif;
 }
 
 .btn {
-
     border: none;
-
-    padding: 16px 25px;
-
+    padding: 14px 22px;
     border-radius: 15px;
-
-    font-family: "Kanit", sans-serif;
-
-    font-size: 17px;
-
-    font-weight: 500;
-
+    font-size: 16px;
     cursor: pointer;
-
     transition: 0.2s;
-
 }
 
-.btn:hover {
-
+.btn:hover,
+.frame-btn:hover,
+.create-btn:hover,
+.save-btn:hover,
+.reset-btn:hover {
     transform: translateY(-2px);
-
 }
 
 .btn-dark {
-
     background: #222;
-
     color: white;
-
 }
 
 .btn-pink {
-
-    background: linear-gradient(
-        135deg,
-        #ff7ca5,
-        #ff4f86
-    );
+    background:
+        linear-gradient(
+            135deg,
+            #ff7ca5,
+            #ff4f86
+        );
 
     color: white;
-
-    box-shadow:
-        0 8px 20px
-        rgba(255, 80, 130, 0.3);
-
 }
 
 
 /* รูป 2 x 2 */
 
 .photo-grid {
-
     width: 100%;
-
     max-width: 520px;
-
-    margin: 10px auto;
+    margin: 15px auto;
 
     display: grid;
 
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+        repeat(2, 1fr);
 
     gap: 15px;
-
 }
 
 .photo-slot {
-
     position: relative;
 
     aspect-ratio: 1 / 0.72;
 
-    border: 2px dashed #f4b5c8;
+    border:
+        2px dashed #f4b5c8;
 
     border-radius: 16px;
 
     display: flex;
-
     flex-direction: column;
 
-    justify-content: center;
-
     align-items: center;
+    justify-content: center;
 
     overflow: hidden;
 
-    background: rgba(255, 255, 255, 0.45);
+    background:
+        rgba(255,255,255,0.6);
 
     color: #888;
-
-    transition: 0.3s;
-
 }
 
 .photo-slot img {
-
     width: 100%;
-
     height: 100%;
 
     object-fit: cover;
-
-    transform: scaleX(-1);
-
 }
 
 .placeholder {
-
     font-size: 35px;
-
-    filter: grayscale(1);
-
-    opacity: 0.7;
-
+    opacity: 0.6;
 }
 
 .photo-slot span {
-
     margin-top: 5px;
-
-    font-size: 18px;
-
-    font-weight: 500;
-
 }
 
-
-/* ถ้ามีรูปแล้ว */
-
-.photo-slot.has-photo span {
-
-    display: none;
-
-}
-
+.photo-slot.has-photo span,
 .photo-slot.has-photo .placeholder {
-
     display: none;
-
 }
 
 
-/* ปุ่มถ่ายใหม่ */
+/* เลือกกรอบ */
 
-.reset-btn {
+.frame-section {
+    margin-top: 30px;
+}
 
-    display: none;
+.frame-section h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
 
+.frame-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.frame-btn {
+    border: 2px solid #efb1c5;
+    background: white;
+
+    padding: 10px 18px;
+
+    border-radius: 20px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.frame-btn.active {
+    background: #ef7fa4;
+    color: white;
+    border-color: #ef7fa4;
+}
+
+
+/* สร้างรูป */
+
+.result-section {
     margin-top: 20px;
+}
 
-    padding: 12px 25px;
-
+.create-btn {
     border: none;
+
+    padding: 15px 25px;
+
+    border-radius: 15px;
+
+    background: #333;
+    color: white;
+
+    font-size: 17px;
+    cursor: pointer;
+}
+
+
+/* รูปสุดท้าย */
+
+.final-section {
+    margin-top: 35px;
+}
+
+.final-section h2 {
+    margin-bottom: 15px;
+}
+
+#finalImage {
+    width: 100%;
+    max-width: 420px;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0,0,0,0.15);
+}
+
+
+/* ปุ่มดาวน์โหลด */
+
+.result-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+
+    margin-top: 18px;
+}
+
+.save-btn,
+.reset-btn {
+    border: none;
+
+    padding: 12px 22px;
 
     border-radius: 14px;
 
-    background: #333;
-
     color: white;
-
-    font-family: "Kanit", sans-serif;
 
     font-size: 16px;
 
     cursor: pointer;
+}
 
+.save-btn {
+    background:
+        linear-gradient(
+            135deg,
+            #ff7ca5,
+            #ff4f86
+        );
+}
+
+.reset-btn {
+    background: #333;
 }
 
 
 /* ข้อความล่าง */
 
 .footer-text {
-
-    margin-top: 30px;
-
+    margin-top: 35px;
     color: #999;
-
-    font-size: 17px;
-
 }
 
 .footer-text span {
-
     display: inline-block;
-
-    margin-top: 10px;
-
+    margin-top: 8px;
     color: #ef7fa4;
-
 }
 
 
-/* ของตกแต่งรอบเว็บ */
+/* ของตกแต่ง */
 
 .deco {
-
     position: fixed;
 
     color: #ef91ae;
 
-    font-family: "Patrick Hand", cursive;
+    font-family:
+        "Patrick Hand",
+        cursive;
 
     font-size: 30px;
 
@@ -378,50 +393,33 @@ header p {
 
     text-align: center;
 
-    opacity: 0.85;
+    opacity: 0.8;
 
     pointer-events: none;
-
 }
 
 .deco-left-top {
-
     top: 70px;
-
     left: 7%;
-
     transform: rotate(-12deg);
-
 }
 
 .deco-right-top {
-
     top: 50px;
-
     right: 7%;
-
     transform: rotate(8deg);
-
 }
 
 .deco-left-bottom {
-
     bottom: 40px;
-
     left: 5%;
-
     font-size: 40px;
-
 }
 
 .deco-right-middle {
-
     top: 55%;
-
     right: 5%;
-
     transform: rotate(-8deg);
-
 }
 
 
@@ -430,35 +428,16 @@ header p {
 @media (max-width: 700px) {
 
     .deco {
-
         display: none;
-
-    }
-
-    .container {
-
-        max-width: 600px;
-
     }
 
     header h1 {
-
         font-size: 27px;
-
-    }
-
-    .buttons {
-
-        gap: 10px;
-
     }
 
     .btn {
-
+        padding: 13px 14px;
         font-size: 14px;
-
-        padding: 14px 15px;
-
     }
 
 }
